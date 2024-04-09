@@ -2,10 +2,7 @@ package com.example.todoList.todoList_api.controller;
 
 import com.example.todoList.todoList_api.model.Task;
 import com.example.todoList.todoList_api.service.TaskService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +23,10 @@ public class TaskController {
     @RequestMapping(method = RequestMethod.POST, value = "/tasks")
     public void addTask(@RequestBody Task task){
         taskService.addTask(task);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/tasks/{id}")
+    public void updateTask(@PathVariable int id, @RequestBody Task task){
+        taskService.updateTask(id, task);
     }
 }
