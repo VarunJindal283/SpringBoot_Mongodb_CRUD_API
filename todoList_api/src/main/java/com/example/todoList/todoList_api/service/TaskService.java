@@ -29,4 +29,14 @@ public class TaskService {
     public void addTask(Task task){
         taskRepository.save(task);
     }
+
+    public void updateTask(int id, Task task){
+        if(taskRepository.findById(id).isPresent()){
+            task.setId(id);
+            taskRepository.save(task);
+        }
+        else{
+            throw new RuntimeException("Item not found");
+        }
+    }
 }
