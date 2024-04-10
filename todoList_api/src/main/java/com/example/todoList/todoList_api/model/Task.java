@@ -27,6 +27,6 @@ public class Task {
     private Integer id;
     private String title;
     private String description;
-    private boolean isTaskcompleted;
+    private boolean isTaskcompleted = false;
     private List<Comments> comments;
 }

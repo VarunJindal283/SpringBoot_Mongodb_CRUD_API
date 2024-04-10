@@ -29,4 +29,14 @@ public class TaskController {
     public void updateTask(@PathVariable int id, @RequestBody Task task){
         taskService.updateTask(id, task);
     }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/tasks/{id}")
+    public void deleteTask(@PathVariable int id){
+        taskService.deleteTask(id);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/tasks")
+    public void deleteAllTasks(){
+        taskService.deleteAllTasks();
+    }
 }
