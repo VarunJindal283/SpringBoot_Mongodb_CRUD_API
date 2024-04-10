@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class TaskService {
@@ -55,16 +52,52 @@ public class TaskService {
     }
 
     public void updateTask(int id, Task task){
-        if(taskRepository.findById(id).isPresent()){
-            if(id==task.getId()){
+        Optional<Task> tempTask = taskRepository.findById(id);
+        if(tempTask.isPresent()){
+            Task existingTask = tempTask.get();
+            if (task.getId() == null || task.getId() == id) {
+                task.setId(existingTask.getId());
+                if (task.getComments() == null){
+                    task.setComments(existingTask.getComments());
+                }
+                if (task.getDescription() == null){
+                    task.setDescription(existingTask.getDescription());
+                }
+                if (task.getTitle() == null){
+                    task.setTitle(existingTask.getDescription());
+                }
+                if(task.isTaskcompleted()){
+                    List<Comments> comments = existingTask.getComments();
+                    localDate = LocalDate.now(ZoneId.of("GMT+05:30"));
+                    Comments comment = new Comments("Task Done", localDate);
+                    comments.set(comments.size()-1, comment);
+                }
                 taskRepository.save(task);
             }
             else{
-                throw new RuntimeException("Can't change the Id of the Task");
+                throw new RuntimeException("Can't change the id of the object");
             }
         }
         else{
-            throw new RuntimeException("Item not found");
+            throw new RuntimeException("Task doesn't exit");
+        }
+    }
+
+    public void deleteTask(int id){
+        if(taskRepository.findById(id).isPresent()){
+            taskRepository.deleteById(id);
+        }
+        else{
+            throw new RuntimeException("Task doesn't exit");
+        }
+    }
+
+    public void deleteAllTasks(){
+        if (taskRepository.count() != 0){
+            taskRepository.deleteAll();
+        }
+        else{
+            throw new RuntimeException("No Task exist");
         }
     }
 }
