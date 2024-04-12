@@ -29,6 +29,16 @@ public class TaskService {
         return (List<Task>) taskRepository.findAll();
     }
 
+    public Task getTask(int id){
+        Optional<Task> task = taskRepository.findById(id);
+        if(task.isEmpty()){
+            throw new RuntimeException("Task doesn't exist");
+        }
+        else{
+            return task.get();
+        }
+    }
+
     public void addTask(Task task){
         if(taskRepository.findById(task.getId()).isPresent()){
             throw new RuntimeException("Task Already exits with same Id");
