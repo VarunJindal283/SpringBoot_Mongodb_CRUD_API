@@ -20,6 +20,11 @@ public class TaskController {
         return taskService.getAllTasks();
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/tasks/{id}")
+    public Task getTask(@PathVariable(value = "id") int id){
+        return taskService.getTask(id);
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/tasks")
     public void addTask(@RequestBody Task task){
         taskService.addTask(task);
